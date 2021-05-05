@@ -1,0 +1,148 @@
+<!--Author: Etienne Richart-->
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='webapp.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='webapp.js') }}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <title>FindMyAstronaut - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chartist.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chart-from-api.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>FindMyAstronaut</h1>
+        <div>
+            <form autocomplete="off">
+                <label id="autoContainer" for="search">Search:
+                    <input id="search" type="text" placeholder="Astronaut, Mission, Craft" name="search" />
+                </label>
+                <input type="button" class="buttonHoverHead" value="GO" onclick="searchSubmit()"></input>
+            </form>
+            <nav>
+                <ul>
+                    <li id="astronautsTab"><a href="/astronauts.html">Astronauts</a></li>
+                    <li id="missionsTab"><a href="/missions.html">Missions</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="example">
+        <h2>Example Results</h2>
+        <div id="exampleContainer">
+            <div id="exampleSelection">
+                <div id="example1" class="active" onclick="display(1)">Nationality vs. Sum of the Year Astronauts were Selected</div>
+                <div id="example2" onclick="display(2)">Nationality vs. Sum of their Astronauts' Extra-Vehicular Acitvity</div>
+            </div>
+            <div id="exampleGraphs">
+                <div id="exampleGraph1" class="chart-container"><div class="ct-chart ct-perfect-fourth" id="exGraph1"></div></div>
+                <div id="exampleGraph2" class="chart-container"><div class="ct-chart ct-perfect-fourth" id="exGraph2"></div></div>
+            </div>
+        </div>
+    </section>
+    <section id="astronauts" class="raw">
+        <div class="rawHeader">
+            <h2>Explore the Astronauts</h2>
+            <button id="toggleRawAstronauts" onclick="hideShow('wrapRawAstronauts', 'toggleRawAstronauts', 'rawAstronautsForm')">hide</button>
+        </div>
+        <form id="rawAstronautsForm">
+        </form>
+        <div id="wrapRawAstronauts" class="table-wrapper">
+            <div class="table-scroll">
+                <table id="rawAstronauts">
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="missions" class="raw">
+        <div class="rawHeader">
+            <h2>Explore the Missions</h2>
+            <button id="toggleRawMissions" onclick="hideShow('wrapRawMissions', 'toggleRawMissions', 'rawMissionsForm')">hide</button>
+        </div>
+        <form id="rawMissionsForm">
+        </form>
+        <div id="wrapRawMissions" class="table-wrapper">
+            <div class="table-scroll">
+                <table id="rawMissions">
+                </table>
+            </div>
+        </div>
+    </section>
+    <section  id="graphing">
+        <h2>Graph the Data</h2>
+        <div class="header">
+            <div>
+                <label for="x-select">X Axis:</label>
+                <select id="x-select" onchange="updateSelection()"></select>
+            </div>
+            <div>
+                <label for="y-select">Y Axis:</label>
+                <select id="y-select" onchange="updateSelection()"></select>
+            </div>
+            <div>
+                <label for="aggregate">Y Aggregation:</label>
+                <select id="aggregate">
+                    <option>COUNT</option>
+                    <option>SUM</option>
+                </select>
+            </div>
+            <div>
+                <label for="order">Order:</label>
+                <select id="order">
+                    <option></option>
+                    <option>ASC</option>
+                    <option>DESC</option>
+                </select>
+            </div>
+        </div>
+        <div class="rawHeader"><h3>Where Clause:</h3><button onclick="addRow()">addRow</button></div>
+        <div id="whereWrapper" class="table-wrapper">
+            <div class="table-scroll">
+                <table id="where">
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>Connects</th>
+                            <th>B</th>
+                            <th>More</th>
+                        </tr>
+                    </thead>
+                    <tbody id="whereBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type=button class="buttonHover" onclick="customGraph()">Graph</button>
+        <!-- Positive tests -->
+        <div class="chart-container">
+            <div class="chart-title" id="state-new-cases-title"></div>
+            <div class="ct-chart ct-perfect-fourth" id="state-new-cases-chart"></div>
+            <div id="state-new-cases-tooltip" class="tooltip"> </div>
+        </div>
+    </section>
+    <footer>
+        <h1>Find <br />My <br />Astronaut</h1>
+        <div class='footCol'>
+            <h3>About the Data</h3>
+            <p>This data was made from the <a href="https://data.mendeley.com/datasets/86tsnnbv2w/1">Astronaut Database</a>.<br />
+                Published: 17-01-2020<br /><strong>DOI</strong>: 10.17632/86tsnnbv2w.1<br />Contributors: Mariya Stavnichuk and Tatsuya Corlett
+            </p>
+        </div>
+        <div class='footCol lCol'>
+            <h3>Website Source Code</h3>
+            <a href="https://github.com/RichartE/cs257/tree/main/webapp"><i class="fa fa-github"></i></a>
+        </div>
+        <div class='footCol nCol'>
+            <h3>API Documentation</h3>
+            <a href="/api/help"><i class="fa fa-book" aria-hidden="true"></i></a>
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='chartist.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='chartist-plugin-tooltip.js') }}"></script>
+</body>
+</html>

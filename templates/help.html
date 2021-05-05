@@ -1,0 +1,63 @@
+<!--Author: Etienne Richart-->
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='webapp.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='webapp.js') }}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>FMA - Help</title>
+</head>
+
+<body>
+    <header>
+        <a href="/"><h1>FindMyAstronaut</h1></a>
+        <div>
+            <form autocomplete="off">
+                <label id="autoContainer" for="search">Search:
+                    <input id="search" type="text" placeholder="Astronaut, Mission, Craft" name="search" />
+                </label>
+                <input type="button" class="buttonHoverHead" value="GO" onclick="searchSubmit()"></input>
+            </form>
+            <nav>
+                <ul>
+                    <li id="astronautsTab"><a href="/astronauts.html">Astronauts</a></li>
+                    <li id="missionsTab"><a href="/missions.html">Missions</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="help">
+        <h2>API Design: </h2>
+        <pre>{{  api_design  }}</pre>
+    </section>
+    <section class="help">
+        <h2>Database Schema: </h2>
+        <div class="row">
+            <pre>{{  db_schema0  }}</pre>
+            <pre>{{  db_schema1  }}</pre>
+            <pre>{{  db_schema2  }}</pre>
+            <pre>{{  db_schema3  }}</pre>
+        </div>
+    </section>
+    <footer>
+        <h1>Find <br />My <br />Astronaut</h1>
+        <div class='footCol'>
+            <h3>About the Data</h3>
+            <p>This data was made from the <a href="https://data.mendeley.com/datasets/86tsnnbv2w/1">Astronaut Database</a>.<br />
+                Published: 17-01-2020<br /><strong>DOI</strong>: 10.17632/86tsnnbv2w.1<br />Contributors: Mariya Stavnichuk and Tatsuya Corlett
+            </p>
+        </div>
+        <div class='footCol lCol'>
+            <h3>Webcite Source Code</h3>
+            <a href="https://github.com/RichartE/cs257/tree/main/webapp"><i class="fa fa-github"></i></a>
+        </div>
+        <div class='footCol nCol'>
+            <h3>API Documentation</h3>
+            <a href="/api/help"><i class="fa fa-book" aria-hidden="true"></i></a>
+        </div>
+    </footer>
+</body>
+</html>
